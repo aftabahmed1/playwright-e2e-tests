@@ -1,7 +1,6 @@
 import { Locator } from "@playwright/test";
 import { BasePage } from "./BasePage";
 import { Page } from "@playwright/test";
-import { HomePage } from "./HomePage";
 
 export class CheckoutPage extends BasePage {
   private readonly nameInput: Locator;
@@ -57,17 +56,14 @@ export class CheckoutPage extends BasePage {
     const element = page.getByRole(role, { name });
     await element.waitFor({ state: "visible", timeout });
     await element.click();
+    await element.waitFor({ state: "hidden" });
   }
 
   async confirmPurchase(
     page: Page,
-    purchaseButtonName: string,
     okButtonName: string,
     amount: string | null
   ) {
-    // Click the purchase button
-    await this.clickElement(page, "button", purchaseButtonName);
-
     // Wait for the item text to appear and assert it matches the pattern (e.g., contains an ID that is a number)
     const itemTextLocator = page.locator(`text=/Id: \\d+Amount: ${amount}/`); // Use regex to match the dynamic ID
     await itemTextLocator.waitFor({ state: "visible", timeout: 5000 }); // Wait for element visibility
@@ -80,20 +76,20 @@ export class CheckoutPage extends BasePage {
         `Item text "${itemText}" does not contain a valid ID with digits.`
       );
     }
-
-    // Click the item
-    await itemTextLocator.click();
-
+    await page
+      .locator(".sa-confirm-button-container")
+      .waitFor({ state: "visible" });
     // Click the OK button
     await this.clickElement(page, "button", okButtonName);
+    await this.navigateTo("/index.html");
   }
 
   /**
    * Close confirmation modal
-   * @returns: Promise<HomePage> - Return to homepage
+   * @returns: Promise<void>
    */
-  async closeConfirmation(): Promise<HomePage> {
-    await this.okButton.click();
-    return new HomePage(this.page);
+  async closeConfirmation(): Promise<void> {
+    await this.okButton.waitFor({ state: "visible" });
+    await this.okButton.click({ delay: 500 });
   }
 }

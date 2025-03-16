@@ -157,9 +157,11 @@ test.describe("Demoblaze", () => {
       const url = await cart.getCurrentUrl();
       expect(url).toContain("/cart");
 
-      const cartTotal = await page.locator("#totalp").textContent();
+      const totalLocator = page.locator("#totalp")
+      await totalLocator.waitFor({state: 'visible', timeout: 5000});
+      const cartAmont =  await totalLocator.textContent()
 
-      expect(cartTotal).toBe(String(totalPrice));
+      expect(cartAmont).toBe(String(totalPrice));
     });
   });
 
@@ -224,7 +226,7 @@ test.describe("Demoblaze", () => {
           year: validPaymentData.Year,
         });
 
-        await checkoutPage.confirmPurchase(page, "Purchase", "OK", cartAmount);
+        await checkoutPage.confirmPurchase(page, "OK", cartAmount);
       });
 
       await test.step("should add item and logout to check if cart is empty", async () => {

@@ -23,8 +23,6 @@ export class ProductPage extends BasePage {
     // should click once
     await this.addToCartButton.waitFor({ state: "visible" });
     await this.addToCartButton.click({ clickCount: addItemCount });
-    // due to flaky behaviour of the page
-    await this.page.reload()
 
     return new CartPage(this.page);
   }

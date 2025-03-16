@@ -13,6 +13,7 @@ export class LoginPage extends BasePage {
     await this.page.getByRole("textbox", { name: "Password:" }).fill(password);
     this.page.once("dialog", async (dialog) => {
       await dialog.accept();
+      dialog.dismiss().catch(() => {});
       expect(dialog.message()).toBe("Sign up successful.");
     });
     await this.page.getByRole("button", { name: "Sign up" }).click();
