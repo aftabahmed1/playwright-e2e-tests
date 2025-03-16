@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  playwright-test:
+    image: playwright-test
+    environment:
+      - API_TOKEN=${API_TOKEN}
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: "npx playwright test"
+    volumes:
+      - ./playwright-report/:/app/playwright-report
+      - ./test-results/:/app/test-results
+    ports:
+      - "9323:9323"
+      
