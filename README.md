@@ -43,6 +43,7 @@ playwright-e2e-tests/
 
 ## Prerequisites
 
+- Create your own token on [gorest.co.in](https://gorest.co.in/) for API tests via google/github/microsoft account.
 - Node.js (LTS version recommended)
 - npm
 - Playwright browsers (installed automatically)
@@ -164,3 +165,10 @@ This project uses GitHub Actions for CI/CD. The workflow is defined in `.github/
 - `helpers/UI.ts`: Utility functions for UI interactions.
 - `helpers/userAPI.ts`: Helper functions for API requests.
 - `fixtures/`: Test data for both UI and API tests.
+
+### Running Tests in Docker
+- Add your `${API_TOKEN}` to the `docker-compose.yml` file.
+- Execute the following command to build and run the tests in Docker:
+  ```bash
+  docker-compose up --build
+- Once the tests have completed, you can view the reports under playwright-report `index.html`.
