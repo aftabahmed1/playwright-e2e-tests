@@ -27,28 +27,25 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: 'http://127.0.0.1:3000',
     //baseURL: 'https://gorest.co.in/public/v2/',
-    headless: false,
+    headless: true,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
+    video:'retain-on-failure'
   },
 
   /* Configure projects for major browsers */
   projects: [
     {
       name: 'UI Tests',
-      testDir: './tests/ui', // Path to your UI tests
+      testDir: './tests/UI', // Path to your UI tests
       use: {
         baseURL: 'https://www.demoblaze.com/',  // UI base URL
-        // actionTimeout: 2000,
-        // navigationTimeout: 3000,
-        launchOptions: {
-          slowMo: 1000,  // Slow down actions by 1 second
-        },
       },
     },
     {
       name: 'API Tests',
-      testDir: './tests/api', // Path to your API tests
+      testDir: './tests/API', // Path to your API tests
       use: {
         baseURL: 'https://gorest.co.in/public/v2/', // API base URL
         // Set up additional API-specific configurations here (like headers)
@@ -67,7 +64,7 @@ export default defineConfig({
     // {
     //   name: 'webkit',
     //   use: { ...devices['Desktop Safari'] },
-    // },
+    // }
 
     /* Test against mobile viewports. */
     // {
